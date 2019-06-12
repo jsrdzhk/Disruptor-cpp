@@ -5,8 +5,6 @@
 #include <future>
 #include <vector>
 
-#include <boost/thread.hpp>
-
 #include "Disruptor/BlockingQueue.h"
 #include "Disruptor/ITaskScheduler.h"
 
@@ -32,7 +30,7 @@ namespace Disruptor
 
         BlockingQueue< std::packaged_task< void() > > m_tasks;
         std::atomic< bool > m_started {false};
-        std::vector< boost::thread > m_threads;
+        std::vector< std::thread > m_threads;
     };
 
 } // namespace Disruptor

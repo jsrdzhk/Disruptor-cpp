@@ -1,7 +1,5 @@
 #pragma once
 
-#include <boost/thread.hpp>
-
 #include "Disruptor/ClockConfig.h"
 #include "Disruptor/IWaitStrategy.h"
 
@@ -31,8 +29,8 @@ namespace Disruptor
 
     private:
         ClockConfig::Duration m_timeout;
-        boost::recursive_mutex m_gate;
-        boost::condition_variable_any m_conditionVariable;
+		std::recursive_mutex m_gate;
+        std::condition_variable_any m_conditionVariable;
     };
 
 } // namespace Disruptor
