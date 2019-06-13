@@ -16,7 +16,7 @@ namespace Disruptor
 namespace Tests
 {
 
-    struct BatchEventProcessorTestsFixture
+    struct BatchEventProcessorTestsFixture : public ::testing::Test
     {
         BatchEventProcessorTestsFixture();
 

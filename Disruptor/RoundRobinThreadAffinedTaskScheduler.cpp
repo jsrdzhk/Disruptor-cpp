@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "RoundRobinThreadAffinedTaskScheduler.h"
 
-#include <boost/date_time.hpp>
 
 #include "ArgumentOutOfRangeException.h"
 #include "ThreadHelper.h"
@@ -32,9 +31,10 @@ namespace Disruptor
 
         for (auto&& thread : m_threads)
         {
-            if (thread.joinable())
-                thread.timed_join(boost::posix_time::seconds(10));
+            if (thread->wait_for(std::chrono::seconds(10)) == std::future_status::ready)
+                delete thread;
         }
+        m_threads.clear();
     }
 
     std::future< void > RoundRobinThreadAffinedTaskScheduler::scheduleAndStart(std::packaged_task< void() >&& task)
@@ -48,7 +48,7 @@ namespace Disruptor
     void RoundRobinThreadAffinedTaskScheduler::createThreads(std::int32_t numberOfThreads)
     {
         for (auto i = 0; i < numberOfThreads; ++i)
-            m_threads.emplace_back([this, i]() { workingLoop(i); });
+            m_threads.emplace_back(new std::future<void>(std::async(std::launch::async, [this, i]() { workingLoop(i); })));
     }
 
     void RoundRobinThreadAffinedTaskScheduler::workingLoop(std::int32_t threadId)

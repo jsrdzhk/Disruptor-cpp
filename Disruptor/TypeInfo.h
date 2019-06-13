@@ -18,9 +18,9 @@ namespace Disruptor
 
         bool operator==(const TypeInfo& rhs) const;
 
-        static std::string dotNetify(const std::string& typeName);
-        static std::string unqualifyName(const std::string& fullyQualifiedName);
-        static std::string demangleTypeName(const std::string& typeName);
+        static std::string dotNetify(std::string typeName);
+        static std::string unqualifyName(std::string fullyQualifiedName);
+        static std::string demangleTypeName(std::string typeName);
 
     private:
         const std::type_info* m_typeInfo;
@@ -50,9 +50,12 @@ namespace std
 {
 
     template <>
-    struct hash< Disruptor::TypeInfo > : public unary_function< Disruptor::TypeInfo, size_t >
+    struct hash< Disruptor::TypeInfo >
     {
     public:
+        typedef Disruptor::TypeInfo argument_type;
+        typedef std::size_t result_type;
+
         size_t operator()(const Disruptor::TypeInfo& value) const
         {
             return hash< type_index >()(type_index(value.intrinsicTypeInfo()));

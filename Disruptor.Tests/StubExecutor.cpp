@@ -19,7 +19,7 @@ namespace Tests
             result = task.get_future();
 
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
-            m_threads.push_back(boost::thread(std::move(task)));
+            m_threads.push_back(std::thread(std::move(task)));
         }
 
         return result;
@@ -31,15 +31,15 @@ namespace Tests
 
         while (!m_threads.empty())
         {
-            boost::thread thread(std::move(m_threads.front()));
+            std::thread thread(std::move(m_threads.front()));
             m_threads.pop_front();
 
             if (thread.joinable())
             {
                 try
                 {
-                    thread.interrupt();
-                    thread.timed_join(boost::posix_time::milliseconds(5000));
+                    auto future = std::async(std::launch::async, &std::thread::join, &thread);
+                    future.wait_for(std::chrono::milliseconds(5000));
                 }
                 catch (std::exception& ex)
                 {
@@ -47,7 +47,7 @@ namespace Tests
                 }
             }
 
-            BOOST_CHECK_MESSAGE(thread.joinable() == false, "Failed to stop thread: " << thread.get_id());
+            EXPECT_TRUE(thread.joinable() == false) << "Failed to stop thread: " << thread.get_id();
         }
     }
 

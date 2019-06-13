@@ -4,12 +4,11 @@
 #include <cstdint>
 #include <memory>
 
-#include <boost/thread/barrier.hpp>
-
 #include "Disruptor/IEventHandler.h"
 #include "Disruptor/ILifecycleAware.h"
 
 #include "Disruptor.Tests/TestEvent.h"
+#include "Disruptor.TestTools/Barrier.h"
 
 
 namespace Disruptor
@@ -35,13 +34,13 @@ namespace Tests
         void awaitStart();
 
     private:
-        explicit DelayedEventHandler(const std::shared_ptr< boost::barrier >& barrier);
+        explicit DelayedEventHandler(const std::shared_ptr< Barrier >& barrier);
 
         void waitForAndSetFlag(std::int32_t newValue);
 
         std::atomic< std::int32_t > m_readyToProcessEvent;
         std::atomic< bool > m_stopped;
-        std::shared_ptr< boost::barrier > m_barrier;
+        std::shared_ptr< Barrier > m_barrier;
     };
 
 } // namespace Tests

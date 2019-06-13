@@ -22,7 +22,7 @@ namespace Disruptor
 namespace Tests
 {
 
-    struct DisruptorFixture
+    struct DisruptorFixture : public ::testing::Test
     {
         class EventProcessorFactory;
         class EventTranslator;

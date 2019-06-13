@@ -2,7 +2,6 @@
 
 #include "Disruptor/BatchEventProcessor.h"
 #include "Disruptor/IEventHandler.h"
-#include "Disruptor/IgnoreExceptionHandler.h"
 #include "Disruptor/ILifecycleAware.h"
 #include "Disruptor/RingBuffer.h"
 
@@ -14,9 +13,6 @@
 
 using namespace Disruptor;
 using namespace ::Disruptor::Tests;
-
-
-BOOST_AUTO_TEST_SUITE(LifecycleAwareTests)
 
 class LifecycleAwareEventHandler : public IEventHandler< StubEvent >, public ILifecycleAware
 {
@@ -54,7 +50,7 @@ private:
     std::int32_t m_shutdownCounter;
 };
 
-BOOST_AUTO_TEST_CASE(ShouldNotifyOfBatchProcessorLifecycle)
+TEST(ShouldNotifyOfBatchProcessorLifecycle, LifecycleAwareTests)
 {
     ManualResetEvent startSignal(false);
     ManualResetEvent shutdownSignal(false);
@@ -73,8 +69,6 @@ BOOST_AUTO_TEST_CASE(ShouldNotifyOfBatchProcessorLifecycle)
 
     thread.join();
 
-    BOOST_CHECK_EQUAL(eventHandler->startCounter(), 1);
-    BOOST_CHECK_EQUAL(eventHandler->shutdownCounter(), 1);
+    EXPECT_EQ(eventHandler->startCounter(), 1);
+    EXPECT_EQ(eventHandler->shutdownCounter(), 1);
 }
-
-BOOST_AUTO_TEST_SUITE_END()

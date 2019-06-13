@@ -7,9 +7,8 @@
 using namespace Disruptor;
 
 
-BOOST_AUTO_TEST_SUITE(MultiProducerSequencerTests)
 
-BOOST_AUTO_TEST_CASE(ShouldOnlyAllowMessagesToBeAvailableIfSpecificallyPublished)
+TEST(ShouldOnlyAllowMessagesToBeAvailableIfSpecificallyPublished, MultiProducerSequencerTests)
 {
     auto waitingStrategy = std::make_shared< BlockingWaitStrategy >();
     auto publisher = std::make_shared< MultiProducerSequencer< int > >(1024, waitingStrategy);
@@ -17,13 +16,12 @@ BOOST_AUTO_TEST_CASE(ShouldOnlyAllowMessagesToBeAvailableIfSpecificallyPublished
     publisher->publish(3);
     publisher->publish(5);
 
-    BOOST_CHECK_EQUAL(publisher->isAvailable(0), false);
-    BOOST_CHECK_EQUAL(publisher->isAvailable(1), false);
-    BOOST_CHECK_EQUAL(publisher->isAvailable(2), false);
-    BOOST_CHECK_EQUAL(publisher->isAvailable(3), true );
-    BOOST_CHECK_EQUAL(publisher->isAvailable(4), false);
-    BOOST_CHECK_EQUAL(publisher->isAvailable(5), true );
-    BOOST_CHECK_EQUAL(publisher->isAvailable(6), false);
+    EXPECT_EQ(publisher->isAvailable(0), false);
+    EXPECT_EQ(publisher->isAvailable(1), false);
+    EXPECT_EQ(publisher->isAvailable(2), false);
+    EXPECT_EQ(publisher->isAvailable(3), true );
+    EXPECT_EQ(publisher->isAvailable(4), false);
+    EXPECT_EQ(publisher->isAvailable(5), true );
+    EXPECT_EQ(publisher->isAvailable(6), false);
 }
 
-BOOST_AUTO_TEST_SUITE_END()

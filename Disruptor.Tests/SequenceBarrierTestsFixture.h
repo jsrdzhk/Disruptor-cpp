@@ -16,7 +16,7 @@ namespace Disruptor
 namespace Tests
 {
 
-    struct SequenceBarrierTestsFixture
+    struct SequenceBarrierTestsFixture : public::testing::Test
     {
         class CountDownEventSequence;
         class StubEventProcessor;

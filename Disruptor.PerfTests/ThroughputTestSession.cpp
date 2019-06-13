@@ -1,14 +1,10 @@
 #include "stdafx.h"
 #include "ThroughputTestSession.h"
 
-#include <numeric>
 #include <sstream>
-
-#include <boost/filesystem.hpp>
 
 #include "Disruptor.TestTools/Stopwatch.h"
 
-#include "Disruptor.PerfTests/PerfTestUtil.h"
 #include "Disruptor.PerfTests/ThroughputTestSessionResult.h"
 
 

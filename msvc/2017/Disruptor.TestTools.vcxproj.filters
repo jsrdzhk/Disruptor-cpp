@@ -26,6 +26,7 @@
     <ClInclude Include="../../Disruptor.TestTools/stdafx.h" />
     <ClInclude Include="../../Disruptor.TestTools/Stopwatch.h" />
     <ClInclude Include="../../Disruptor.TestTools/targetver.h" />
+    <ClInclude Include="..\..\Disruptor.TestTools\Barrier.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="../../Disruptor.TestTools/CMakeLists.txt" />

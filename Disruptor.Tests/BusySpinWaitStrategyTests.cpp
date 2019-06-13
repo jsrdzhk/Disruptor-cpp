@@ -7,12 +7,7 @@
 using namespace Disruptor;
 using namespace Disruptor::Tests;
 
-
-BOOST_AUTO_TEST_SUITE(BusySpinWaitStrategyTests)
-
-BOOST_AUTO_TEST_CASE(ShouldWaitForValue)
+TEST(BusySpinWaitStrategyTests, ShouldWaitForValue)
 {
     assertWaitForWithDelayOf(50, std::make_shared< BusySpinWaitStrategy >());
 }
-
-BOOST_AUTO_TEST_SUITE_END()

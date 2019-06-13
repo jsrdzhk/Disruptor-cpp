@@ -13,7 +13,7 @@ namespace Disruptor
 namespace Tests
 {
 
-    struct AggregateEventHandlerTestsFixture
+    struct AggregateEventHandlerTestsFixture : public ::testing::Test
     {
         AggregateEventHandlerTestsFixture();
 

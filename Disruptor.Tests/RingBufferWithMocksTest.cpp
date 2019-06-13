@@ -4,13 +4,12 @@
 #include "SequencerMock.h"
 #include "StubEvent.h"
 
-
 namespace Disruptor
 {
 namespace Tests
 {
 
-    struct RingBufferWithMocksFixture
+    struct RingBufferWithMocksFixture : public ::testing::Test
     {
         RingBufferWithMocksFixture()
         {
@@ -33,10 +32,7 @@ namespace Tests
 using namespace Disruptor;
 using namespace Disruptor::Tests;
 
-
-BOOST_FIXTURE_TEST_SUITE(RingBufferWithMocksTest, RingBufferWithMocksFixture)
-
-BOOST_AUTO_TEST_CASE(ShouldDelgateNextAndPublish)
+TEST_F(RingBufferWithMocksFixture, ShouldDelgateNextAndPublish)
 {
     EXPECT_CALL(*m_sequencerMock, next()).WillOnce(testing::Return(34L));
     EXPECT_CALL(*m_sequencerMock, publish(34L)).Times(1);
@@ -44,7 +40,7 @@ BOOST_AUTO_TEST_CASE(ShouldDelgateNextAndPublish)
     m_ringBuffer->publish(m_ringBuffer->next());
 }
 
-BOOST_AUTO_TEST_CASE(ShouldDelgateTryNextAndPublish)
+TEST_F(RingBufferWithMocksFixture, ShouldDelgateTryNextAndPublish)
 {
     EXPECT_CALL(*m_sequencerMock, tryNext()).WillOnce(testing::Return(34L));
     EXPECT_CALL(*m_sequencerMock, publish(34L)).Times(1);
@@ -52,7 +48,7 @@ BOOST_AUTO_TEST_CASE(ShouldDelgateTryNextAndPublish)
     m_ringBuffer->publish(m_ringBuffer->tryNext());
 }
 
-BOOST_AUTO_TEST_CASE(ShouldDelgateNextNAndPublish)
+TEST_F(RingBufferWithMocksFixture, ShouldDelgateNextNAndPublish)
 {
     EXPECT_CALL(*m_sequencerMock, next(10)).WillOnce(testing::Return(34L));
     EXPECT_CALL(*m_sequencerMock, publish(25L, 34L)).Times(1);
@@ -61,7 +57,7 @@ BOOST_AUTO_TEST_CASE(ShouldDelgateNextNAndPublish)
     m_ringBuffer->publish(hi - 9, hi);
 }
 
-BOOST_AUTO_TEST_CASE(ShouldDelgateTryNextNAndPublish)
+TEST_F(RingBufferWithMocksFixture, ShouldDelgateTryNextNAndPublish)
 {
     EXPECT_CALL(*m_sequencerMock, tryNext(10)).WillOnce(testing::Return(34L));
     EXPECT_CALL(*m_sequencerMock, publish(25L, 34L)).Times(1);
@@ -69,5 +65,3 @@ BOOST_AUTO_TEST_CASE(ShouldDelgateTryNextNAndPublish)
     auto hi = m_ringBuffer->tryNext(10);
     m_ringBuffer->publish(hi - 9, hi);
 }
-
-BOOST_AUTO_TEST_SUITE_END()

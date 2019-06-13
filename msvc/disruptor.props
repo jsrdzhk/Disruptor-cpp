@@ -7,6 +7,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(root)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	  <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
 	<Link>
       <AdditionalLibraryDirectories Condition="$(Configuration.StartsWith('Debug'))"  >$(root)lib\Debug_$(Platform)_$(PlatformToolset)\Disruptor;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

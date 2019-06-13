@@ -20,10 +20,10 @@ namespace PerfTests
         static const TestRepository& instance();
 
         std::vector< ThroughputTestInfo > allThrougputTests() const;
-        bool tryGetThroughputTest(const std::string& testName, ThroughputTestInfo& testInfo) const;
+        bool tryGetThroughputTest(std::string testName, ThroughputTestInfo& testInfo) const;
 
         std::vector< LatencyTestInfo > allLatencyTests() const;
-        bool tryGetLatencyTest(const std::string& testName, LatencyTestInfo& testInfo) const;
+        bool tryGetLatencyTest(std::string testName, LatencyTestInfo& testInfo) const;
 
     private:
         TestRepository();

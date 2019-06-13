@@ -4,8 +4,6 @@
 #include <cstdint>
 #include <deque>
 
-#include <boost/thread.hpp>
-
 #include "Disruptor/IExecutor.h"
 
 
@@ -32,7 +30,7 @@ namespace Tests
 
     private:
         std::recursive_mutex m_mutex;
-        std::deque< boost::thread > m_threads;
+        std::deque< std::thread > m_threads;
         std::atomic< bool > m_ignoreExecutions;
         std::atomic< std::int32_t > m_executionCount;
     };

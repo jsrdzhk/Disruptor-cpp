@@ -8,7 +8,7 @@ namespace Tests
 {
 
     DelayedEventHandler::DelayedEventHandler() 
-       : DelayedEventHandler(std::make_shared< boost::barrier >(2))
+       : DelayedEventHandler(std::make_shared< Barrier >(2))
     {}
 
     void DelayedEventHandler::onEvent(TestEvent& /*data*/, std::int64_t /*sequence*/, bool /*endOfBatch*/)
@@ -47,7 +47,7 @@ namespace Tests
         m_barrier->wait();
     }
 
-    DelayedEventHandler::DelayedEventHandler(const std::shared_ptr< boost::barrier >& barrier)
+    DelayedEventHandler::DelayedEventHandler(const std::shared_ptr< Barrier >& barrier)
         : m_readyToProcessEvent(0)
         , m_stopped(false)
         , m_barrier(barrier)

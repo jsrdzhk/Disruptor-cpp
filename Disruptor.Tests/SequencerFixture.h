@@ -12,8 +12,9 @@ namespace Tests
 {
 
     template <class T>
-    struct SequencerTestFixture
+    struct SequencerTestFixture : public ::testing::Test
     {
+        typedef T TSequencer;
         SequencerTestFixture()
             : m_waitStrategy(std::make_shared< BlockingWaitStrategy >())
             , m_sequencer(std::make_shared< T >(m_bufferSize, m_waitStrategy))

@@ -15,7 +15,7 @@ namespace Disruptor
 namespace Tests
 {
 
-    struct ConsumerRepositoryTestsFixture
+    struct ConsumerRepositoryTestsFixture: public ::testing::Test
     {
         ConsumerRepositoryTestsFixture();
 

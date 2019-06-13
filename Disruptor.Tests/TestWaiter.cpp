@@ -7,7 +7,7 @@ namespace Disruptor
 namespace Tests
 {
 
-    TestWaiter::TestWaiter(const std::shared_ptr< boost::barrier >& barrier,
+    TestWaiter::TestWaiter(const std::shared_ptr< Barrier >& barrier,
                            const std::shared_ptr< ISequenceBarrier >& sequenceBarrier,
                            const std::shared_ptr< RingBuffer< StubEvent > >& ringBuffer,
                            std::int64_t initialSequence,

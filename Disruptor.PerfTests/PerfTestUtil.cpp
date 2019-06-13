@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "PerfTestUtil.h"
 
-#include <boost/date_time.hpp>
+#include <chrono>
+#include <ctime>
 
 #include "Disruptor/IEventProcessor.h"
 #include "Disruptor/ISequence.h"
@@ -51,8 +52,9 @@ namespace PerfTestUtil
 
     std::string utcDateToString()
     {
-        auto t(boost::posix_time::second_clock::universal_time());
-        return to_simple_string(t);
+        const auto t(std::chrono::system_clock::now());
+        auto time = std::chrono::system_clock::to_time_t(t);
+        return std::ctime(&time);
     }
 
 } // namespace PerfTestUtil

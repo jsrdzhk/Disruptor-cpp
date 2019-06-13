@@ -1,9 +1,8 @@
 #pragma once
 
-#include <boost/config.hpp>
 
 // detect current compiler
-#if defined(BOOST_MSVC)
+#if defined(_MSC_VER)
 # define DISRUPTOR_VC_COMPILER
 #elif defined(__GNUC__)
 # define DISRUPTOR_GNUC_COMPILER

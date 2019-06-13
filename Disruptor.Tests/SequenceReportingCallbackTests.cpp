@@ -14,7 +14,7 @@ namespace Disruptor
 namespace Tests
 {
 
-    struct SequenceReportingCallbackTestsFixture
+    struct SequenceReportingCallbackTestsFixture : public ::testing::Test
     {
         std::shared_ptr< ManualResetEvent > m_callbackSignal = std::make_shared< ManualResetEvent >(false);
         std::shared_ptr< ManualResetEvent > m_onEndOfBatchSignal = std::make_shared< ManualResetEvent >(false);
@@ -59,10 +59,7 @@ namespace Tests
 using namespace Disruptor;
 using namespace Disruptor::Tests;
 
-
-BOOST_FIXTURE_TEST_SUITE(SequenceReportingCallbackTests, SequenceReportingCallbackTestsFixture)
-
-BOOST_AUTO_TEST_CASE(ShouldReportProgressByUpdatingSequenceViaCallback)
+TEST_F(SequenceReportingCallbackTestsFixture, ShouldReportProgressByUpdatingSequenceViaCallback)
 {
     auto ringBuffer = RingBuffer< StubEvent >::createMultiProducer([] { return StubEvent(-1); }, 16);
     auto sequenceBarrier = ringBuffer->newBarrier();
@@ -72,19 +69,17 @@ BOOST_AUTO_TEST_CASE(ShouldReportProgressByUpdatingSequenceViaCallback)
 
     std::thread thread([&] { batchEventProcessor->run(); });
 
-    BOOST_CHECK_EQUAL(-1L, batchEventProcessor->sequence()->value());
+    EXPECT_EQ(-1L, batchEventProcessor->sequence()->value());
     ringBuffer->publish(ringBuffer->next());
 
     m_callbackSignal->waitOne();
-    BOOST_CHECK_EQUAL(0L, batchEventProcessor->sequence()->value());
+    EXPECT_EQ(0L, batchEventProcessor->sequence()->value());
 
     m_onEndOfBatchSignal->set();
-    BOOST_CHECK_EQUAL(0L, batchEventProcessor->sequence()->value());
+    EXPECT_EQ(0L, batchEventProcessor->sequence()->value());
 
     batchEventProcessor->halt();
 
     if (thread.joinable())
         thread.join();
 }
-
-BOOST_AUTO_TEST_SUITE_END()

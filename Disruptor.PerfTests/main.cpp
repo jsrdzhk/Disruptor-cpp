@@ -1,10 +1,9 @@
 #include "stdafx.h"
 
-#include <boost/algorithm/string.hpp>
-
 #include "LatencyTestSession.h"
 #include "TestRepository.h"
 #include "ThroughputTestSession.h"
+#include <locale>
 
 using namespace Disruptor::PerfTests;
 
@@ -21,16 +20,20 @@ int main(int, char**)
 
     std::getline(std::cin, testName);
 
-    boost::algorithm::trim(testName);
+    testName.erase(testName.begin(), std::find_if(testName.begin(), testName.end(), [](int ch) { return !::isspace(ch); }));
+    const auto allTests = std::string("All");
 
-    if (boost::algorithm::iequals(testName, "ALL") || testName.empty())
-    {
+    auto runAll = testName.empty() || 
+        testName.size() == allTests.size() &&
+        std::equal(testName.begin(), 
+            testName.end(), 
+            allTests.begin(), 
+            [](auto left, auto right) {return ::tolower(left) == ::tolower(right); });
+
+    if (runAll)
         runAllTests(testRepository);
-    }
     else
-    {
         runOneTest(testRepository, testName);
-    }
 
     return 0;
 }
