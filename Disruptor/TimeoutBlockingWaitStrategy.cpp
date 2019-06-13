@@ -3,7 +3,7 @@
 
 #include <ostream>
 
-#include <chrono>
+#include <boost/chrono.hpp>
 
 #include "ISequenceBarrier.h"
 #include "Sequence.h"
@@ -23,17 +23,17 @@ namespace Disruptor
                                                        ISequence& dependentSequence,
                                                        ISequenceBarrier& barrier)
     {
-        auto timeSpan = std::chrono::microseconds(std::chrono::duration_cast< std::chrono::microseconds >(m_timeout).count());
+        auto timeSpan = boost::chrono::microseconds(std::chrono::duration_cast< std::chrono::microseconds >(m_timeout).count());
 
         if (cursor.value() < sequence)
         {
-            std::unique_lock< decltype(m_gate) > uniqueLock(m_gate);
+            boost::unique_lock< decltype(m_gate) > uniqueLock(m_gate);
 
             while (cursor.value() < sequence)
             {
                 barrier.checkAlert();
 
-                if (m_conditionVariable.wait_for(uniqueLock, timeSpan) == std::cv_status::timeout)
+                if (m_conditionVariable.wait_for(uniqueLock, timeSpan) == boost::cv_status::timeout)
                     DISRUPTOR_THROW_TIMEOUT_EXCEPTION();
             }
         }
@@ -49,7 +49,7 @@ namespace Disruptor
 
     void TimeoutBlockingWaitStrategy::signalAllWhenBlocking()
     {
-        std::unique_lock< decltype(m_gate) > uniqueLock(m_gate);
+        boost::unique_lock< decltype(m_gate) > uniqueLock(m_gate);
 
         m_conditionVariable.notify_all();
     }

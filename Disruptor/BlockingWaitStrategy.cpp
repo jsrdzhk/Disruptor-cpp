@@ -17,7 +17,7 @@ namespace Disruptor
     {
         if (cursor.value() < sequence)
         {
-            std::unique_lock< decltype(m_gate) > uniqueLock(m_gate);
+            boost::unique_lock< decltype(m_gate) > uniqueLock(m_gate);
 
             while (cursor.value() < sequence)
             {
@@ -38,7 +38,7 @@ namespace Disruptor
 
     void BlockingWaitStrategy::signalAllWhenBlocking()
     {
-        std::unique_lock< decltype(m_gate) > uniqueLock(m_gate);
+        boost::unique_lock< decltype(m_gate) > uniqueLock(m_gate);
 
         m_conditionVariable.notify_all();
     }

@@ -4,7 +4,6 @@
 #include "BuildConfig.h"
 
 #ifdef DISRUPTOR_OS_FAMILY_WINDOWS
-# include <Windows.h>
 
 namespace Disruptor
 {

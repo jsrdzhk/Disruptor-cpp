@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <boost/config.hpp>
+
 #if _MSC_VER // only on Windows
 
 # ifndef WIN32_LEAN_AND_MEAN
@@ -14,7 +16,9 @@
 # pragma warning(disable: 4512) // Assignment operator could not be generated
 
 # include "targetver.h"
+# include <tchar.h>
 # include <winsock2.h>
+# include <Windows.h>
 #endif
 
 // STL includes

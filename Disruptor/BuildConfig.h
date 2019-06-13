@@ -1,13 +1,13 @@
 #pragma once
 
-//#include <boost/config.hpp>
+#include <boost/config.hpp>
 
 // detect current compiler
-#if defined(WIN32)
+#if defined(BOOST_MSVC)
 # define DISRUPTOR_VC_COMPILER
-#else
+#elif defined(__GNUC__)
 # define DISRUPTOR_GNUC_COMPILER
-#endif
+#endif // defined(BOOST_MSVC)
 
 // detect environment
 #if defined(DISRUPTOR_VC_COMPILER)
